@@ -1,4 +1,4 @@
-# n=int(input())
+# n=int(input01())
 # counter=0
 # for i in range(10**(n-1),10**n):
 #         if i%2==0:
@@ -8,7 +8,7 @@
 n=int(input())
 print(5**n)
 
-# n=int(input())
+# n=int(input01())
 # counter=0
 # for i in range(10**(n-1),10**n):
 #         if i%2!=0:

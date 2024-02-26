@@ -1,4 +1,4 @@
-# n=int(input())
+# n=int(input01())
 #
 # for i in range(n+1,2):
 #     if n%i == 0:

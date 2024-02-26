@@ -1,9 +1,8 @@
-from Triangle import *
-from Rectangle import *
 from Figure_reader import *
 
-if __name__ == '__main__':
-    Figure_reader = Figure_reader("input.txt")
-    figure = reader.read_figure()
-    for figure in figures:
-
+reader_01 = Figure_reader("input01.txt")
+reader_02 = Figure_reader("input02.txt")
+reader_03 = Figure_reader("input03.txt")
+print(reader_01.read())
+print(reader_02.read())
+print(reader_03.read())

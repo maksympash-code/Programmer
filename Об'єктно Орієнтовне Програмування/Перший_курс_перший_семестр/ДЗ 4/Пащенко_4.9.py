@@ -1,5 +1,5 @@
 # for n in range(1,21):
-#     x=int(input())
+#     x=int(input01())
 #     if -10<=x<=10 and x%2==0:
 #         print(x,"is even")
 #     elif x==0:
@@ -13,7 +13,7 @@
 
 
 # for i in range(1,21):
-#     x=int(input())
+#     x=int(input01())
 #     if -10 <= x <= 10 and x % 2 == 0 or x==0:
 #         print(x,"is even")
 #     else:

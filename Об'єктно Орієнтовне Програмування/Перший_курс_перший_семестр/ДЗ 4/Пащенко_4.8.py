@@ -1,4 +1,4 @@
-# n = int(input())
+# n = int(input01())
 # i=1
 # while i ** 3 < n:
 #     print(i**3,end=" ")

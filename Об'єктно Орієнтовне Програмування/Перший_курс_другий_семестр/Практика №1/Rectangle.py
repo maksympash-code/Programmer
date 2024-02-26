@@ -1,16 +1,19 @@
 class Rectangle:
 
-    def __init__(self,a,b,c,d):
+    def __init__(self,a,b):
         self.a = a
         self.b = b
-        self.c = c
-        self.d = d
-
-    def is_Rectangle(self):
-        if self.a == self.c and self.b == self.d :
-            return True
 
     def perimeter(self):
         return (self.a + self.b) * 2
-    def squere(self):
+    def area(self):
         return (self.a * self.b)
+
+    def is_Rectangle(self):
+        if self.a == 0 or self.b == 0:
+            return False
+        else:
+            return True
+
+    def __str__(self) -> str:
+        return f"Rectangle: a={self.a}, b={self.b}"
