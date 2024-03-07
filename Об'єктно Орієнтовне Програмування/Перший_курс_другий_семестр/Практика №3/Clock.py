@@ -37,9 +37,8 @@ class Clock:
         goto(0,0)
 
     def arrow_minute(self):
-        pencolor("Black")
         pensize(3)
-        size = self.size - self.size / 4
+        size = self.size - self.size / 5
         up()
         goto(0,0)
         down()
@@ -94,7 +93,6 @@ class Clock:
         right(30 * hour)
         down()
         self.arrow_hour()
-        down()
         while True:
             self.arrow_second()
             sleep(1)
@@ -104,13 +102,17 @@ class Clock:
             if second == 60:
                 second = 1
                 minute += 1
+                up()
                 setheading(90)
                 right(6 * (minute - 1))
-                color ("White")
+                color("White")
+                down()
                 self.arrow_minute()
+                up()
                 setheading(90)
                 right(6 * minute)
                 color("Black")
+                down()
                 self.arrow_minute()
                 up()
                 goto(0,0)
