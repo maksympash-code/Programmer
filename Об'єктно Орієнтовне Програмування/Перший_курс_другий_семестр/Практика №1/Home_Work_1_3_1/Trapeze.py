@@ -21,4 +21,3 @@ class Trapeze:
     def __str__(self) -> str:
         return f"Trapeze: a={self.a}, b={self.b}, c={self.c}, d={self.d}"
 
-

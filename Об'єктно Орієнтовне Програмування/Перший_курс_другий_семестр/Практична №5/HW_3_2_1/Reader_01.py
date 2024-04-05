@@ -100,5 +100,3 @@ for i in range(1):
 
     print("Equation with a minimum value: ", read[1][min_index])
     print("Equation with a maximum value: ", read[1][max_index])
-
-

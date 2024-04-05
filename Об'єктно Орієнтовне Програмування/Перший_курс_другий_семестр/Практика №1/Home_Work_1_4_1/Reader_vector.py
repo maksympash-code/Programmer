@@ -40,6 +40,6 @@ class Vectors_reader:
 
 
 if __name__ == '__main__':
-    reader = Vectors_reader('input01.txt')
+    reader = Vectors_reader('input01')
     print(*reader.read())
     reader.worker()
