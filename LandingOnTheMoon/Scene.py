@@ -9,7 +9,8 @@ class Scene(Canvas):
         self.nodes.append(node)
 
     def update(self):
-        pass # Оновлює стан усіх предметів
+        for node in self.nodes:
+            node.update()# Оновлює стан усіх предметів
 
     def handleEvent(self, event):
         pass
