@@ -31,14 +31,24 @@ class Matrix:
             print(f"File {filename} not found. Please make sure the file exists.")
             return None
 
+    def to_screen(self):
+        for row in self.data:
+            print(' '.join(map(str, row)))
+
+    def to_file(self, filename):
+        with open(filename, 'w') as file:
+            for row in self.data:
+                file.write(' '.join(map(str, row)) + '\n')
+
 
 # Пример использования
 if __name__ == "__main__":
     # Створення матриці з клавіатури
     matrix1 = Matrix.from_keyboard()
-    print(matrix1.data)
+    matrix1.to_screen()
+    matrix1.to_file("matrix1.txt")
 
     # Створення матриці з файлу
     matrix2 = Matrix.from_file("matrix2.txt")
     if matrix2:
-        print(matrix2.data)
+        matrix2.to_screen()
