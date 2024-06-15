@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class Matrix:
     def __init__(self, data):
         if not self.is_square(data):
@@ -50,6 +49,13 @@ class Matrix:
             return NotImplemented
         return Matrix(np.dot(self.data, other.data))
 
+    def __getitem__(self, index):
+        i, j = index
+        return self.data[i, j]
+
+    def __setitem__(self, index, value):
+        i, j = index
+        self.data[i, j] = value
 
 # Пример использования
 if __name__ == "__main__":
@@ -61,7 +67,6 @@ if __name__ == "__main__":
     print("matrix2 = ")
     matrix2.to_screen()
 
-
     # Додавання матриць
     result_add = matrix1 + matrix2
     print("result_add = ")
@@ -70,6 +75,12 @@ if __name__ == "__main__":
 
     # Множення матриць
     result_mul = matrix1 * matrix2
-    print("result_multi = ")
+    print("result_mul = ")
     result_mul.to_screen()
     result_mul.to_file("result_mul.txt")
+
+    # Звернення до елемента матриці
+    print("Елемент [1,1] в matrix1:", matrix1[1, 1])
+    matrix1[1, 1] = 10
+    print("matrix1 після зміни елемента [1,1]:")
+    matrix1.to_screen()
