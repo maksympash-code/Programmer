@@ -57,6 +57,20 @@ class Matrix:
         i, j = index
         self.data[i, j] = value
 
+    def __iter__(self):
+        self._iter_idx = 0
+        return self
+
+    def __next__(self):
+        if self._iter_idx >= self.n * self.n:
+            raise StopIteration
+        result = self.data[self._iter_idx // self.n, self._iter_idx % self.n]
+        self._iter_idx += 1
+        return result
+
+    def sum_elements(self):
+        return sum(self)
+
 # Пример использования
 if __name__ == "__main__":
     # Створення матриці з файлу
@@ -84,3 +98,7 @@ if __name__ == "__main__":
     matrix1[1, 1] = 10
     print("matrix1 після зміни елемента [1,1]:")
     matrix1.to_screen()
+
+    # Використання ітератора та обчислення суми елементів
+    total_sum = matrix2.sum_elements()
+    print("Сума елементів matrix1:", total_sum)
