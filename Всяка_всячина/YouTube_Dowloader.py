@@ -1,7 +1,7 @@
 from pytube import YouTube
 
 video_url = "https://youtu.be/GxEi5NMxmFs?si=kDEhUGIxqqkQ74Gh"
-save_location = r"D:\Програмування\Відео"
+save_location = r"D:\Шахи_дебюти"
 
 yt = YouTube(video_url)
 
