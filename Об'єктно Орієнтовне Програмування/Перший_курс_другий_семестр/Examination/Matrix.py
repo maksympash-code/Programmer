@@ -94,11 +94,11 @@ if __name__ == "__main__":
     result_mul.to_file("result_mul.txt")
 
     # Звернення до елемента матриці
-    print("Елемент [1,1] в matrix1:", matrix1[1, 1])
-    matrix1[1, 1] = 10
+    print("Елемент [1,1] в matrix1:", matrix1[0, 0])
+    matrix1[0, 0] = 10
     print("matrix1 після зміни елемента [1,1]:")
     matrix1.to_screen()
 
     # Використання ітератора та обчислення суми елементів
     total_sum = matrix2.sum_elements()
-    print("Сума елементів matrix1:", total_sum)
+    print("Сума елементів matrix2:", total_sum)
