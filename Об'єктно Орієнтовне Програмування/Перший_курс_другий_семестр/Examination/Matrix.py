@@ -40,15 +40,36 @@ class Matrix:
             for row in self.data:
                 file.write(' '.join(map(str, row)) + '\n')
 
+    def __add__(self, other):
+        if not isinstance(other, Matrix):
+            return NotImplemented
+        return Matrix(self.data + other.data)
+
+    def __mul__(self, other):
+        if not isinstance(other, Matrix):
+            return NotImplemented
+        return Matrix(np.dot(self.data, other.data))
+
 
 # Пример использования
 if __name__ == "__main__":
-    # Створення матриці з клавіатури
-    matrix1 = Matrix.from_keyboard()
-    matrix1.to_screen()
-    matrix1.to_file("matrix1.txt")
-
     # Створення матриці з файлу
+    matrix1 = Matrix.from_file("matrix1.txt")
+    print("matrix1 = ")
+    matrix1.to_screen()
     matrix2 = Matrix.from_file("matrix2.txt")
-    if matrix2:
-        matrix2.to_screen()
+    print("matrix2 = ")
+    matrix2.to_screen()
+
+
+    # Додавання матриць
+    result_add = matrix1 + matrix2
+    print("result_add = ")
+    result_add.to_screen()
+    result_add.to_file("result_add.txt")
+
+    # Множення матриць
+    result_mul = matrix1 * matrix2
+    print("result_multi = ")
+    result_mul.to_screen()
+    result_mul.to_file("result_mul.txt")
