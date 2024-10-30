@@ -22,6 +22,8 @@ car_img = pygame.transform.scale(car_img, (car_width, car_height))
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Motor Racing")
 
+font = pygame.font.SysFont("Arial", 36)
+
 class Car:
     def __init__(self):
         self.image = car_img
@@ -63,9 +65,12 @@ def check_collision(car, obstacle):
     return car_rect.colliderect(obstacle_rect)
 
 def draw_road():
-    """Малюємо чорну дорогу в центрі екрана."""
     road_x = (screen_width - road_width) // 2
     pygame.draw.rect(screen, black, (road_x, 0, road_width, screen_height))
+
+def show_score(score):
+    score_text = font.render(f"Score: {score}", True, white)
+    screen.blit(score_text, (10, 10))
 
 def game_loop():
     car = Car()
@@ -90,8 +95,6 @@ def game_loop():
 
         screen.fill(gray)
         draw_road()
-
-
         car.draw_car()
 
         for obstacle in obstacles[:]:
@@ -106,11 +109,10 @@ def game_loop():
                 print("Аварія! Гра закінчена.")
                 running = False
 
+        show_score(score)
         pygame.display.flip()
-
         clock.tick(fps)
 
     pygame.quit()
 
-# Запускаємо гру
 game_loop()
