@@ -75,7 +75,7 @@ def draw_road():
 def show_info(score, best, speed):
     score_text = font.render(f"Score: {score}", True, white)
     best_score_text = font.render(f"Best: {best}", True, white)
-    speed_text = font.render(f"Speed: {speed:.1f}", True, white)  # Відображаємо швидкість з одним десятковим числом
+    speed_text = font.render(f"Speed: {speed:.1f}", True, white)
     screen.blit(score_text, (10, 10))
     screen.blit(best_score_text, (10, 50))
     screen.blit(speed_text, (10, 90))
@@ -93,34 +93,16 @@ def create_obstacles(speed):
 
     return obstacles
 
-def restart_game():
-    game_loop()
-
-def game_over(score):
-    global best_score
-    if score > best_score:
-        best_score = score
-
-    game_over_screen = True
-    while game_over_screen:
-        screen.fill(gray)
-        game_over_text = font.render("Game Over", True, red)
-        restart_text = font.render("Press R to Restart", True, green)
-        score_text = font.render(f"Your Score: {score}", True, white)
-
-        screen.blit(game_over_text, (screen_width // 2 - 100, screen_height // 2 - 100))
-        screen.blit(score_text, (screen_width // 2 - 100, screen_height // 2 - 50))
-        screen.blit(restart_text, (screen_width // 2 - 150, screen_height // 2))
-
-        pygame.display.flip()
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                game_over_screen = False
-                restart_game()
+def draw_buttons():
+    left_button = pygame.Rect(50, screen_height - 150, 100, 100)
+    right_button = pygame.Rect(screen_width - 150, screen_height - 150, 100, 100)
+    pygame.draw.rect(screen, green, left_button)
+    pygame.draw.rect(screen, green, right_button)
+    left_text = font.render("<", True, black)
+    right_text = font.render(">", True, black)
+    screen.blit(left_text, (85, screen_height - 130))
+    screen.blit(right_text, (screen_width - 115, screen_height - 130))
+    return left_button, right_button
 
 def game_loop():
     car = Car()
@@ -130,14 +112,22 @@ def game_loop():
     running = True
     obstacle_timer = 0
     obstacle_speed = 5
-    max_speed = 15
+    max_speed = 10
     speed_increase_interval = 5000
     last_speed_increase = pygame.time.get_ticks()
 
     while running:
+        left_button, right_button = draw_buttons()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos
+                if left_button.collidepoint(x, y):
+                    car.move_left()
+                elif right_button.collidepoint(x, y):
+                    car.move_right()
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
@@ -148,7 +138,7 @@ def game_loop():
         current_time = pygame.time.get_ticks()
         if current_time - last_speed_increase >= speed_increase_interval:
             if obstacle_speed < max_speed:
-                obstacle_speed += 0.5
+                obstacle_speed += 0.25
             last_speed_increase = current_time
 
         if obstacle_timer <= 0 and len(obstacles) < 4:
@@ -177,6 +167,6 @@ def game_loop():
         pygame.display.flip()
         clock.tick(fps)
 
-    game_over(score)
+    pygame.quit()
 
 game_loop()
