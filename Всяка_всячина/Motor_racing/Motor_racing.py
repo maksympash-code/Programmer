@@ -8,6 +8,8 @@ screen_height = 600
 car_width = 50
 car_height = 100
 road_width = 400
+num_columns = 4
+column_width = road_width // num_columns
 
 fps = 60
 
@@ -43,15 +45,12 @@ class Car:
         screen.blit(self.image, (self.x, self.y))
 
 class Obstacle:
-    def __init__(self):
-        self.width = car_width
+    def __init__(self, column, speed):
+        self.width = column_width - 10
         self.height = car_height
-        self.x = random.randint(
-            (screen_width - road_width) // 2,
-            (screen_width + road_width) // 2 - car_width,
-        )
+        self.x = (screen_width - road_width) // 2 + column * column_width + 5
         self.y = -self.height
-        self.speed = 5
+        self.speed = speed
 
     def move(self):
         self.y += self.speed
@@ -62,11 +61,9 @@ class Obstacle:
     def get_rect(self):
         return pygame.Rect(self.x, self.y, self.width, self.height)
 
-
 def check_collision(car, obstacle):
     car_rect = pygame.Rect(car.x, car.y, car_width, car_height)
-    obstacle_rect = pygame.Rect(obstacle.x, obstacle.y, obstacle.width, obstacle.height)
-    return car_rect.colliderect(obstacle_rect)
+    return car_rect.colliderect(obstacle.get_rect())
 
 def draw_road():
     road_x = (screen_width - road_width) // 2
@@ -76,13 +73,18 @@ def show_score(score):
     score_text = font.render(f"Score: {score}", True, white)
     screen.blit(score_text, (10, 10))
 
-def create_obstacle(obstacles):
-    max_attempts = 10
-    for i in range(max_attempts):
-        new_obstacle = Obstacle()
-        if not any(new_obstacle.get_rect().colliderect(ob.get_rect()) for ob in obstacles):
-            return new_obstacle
-    return None
+def create_obstacles(speed):
+    free_columns = list(range(num_columns))
+    random.shuffle(free_columns)
+
+    num_obstacles = random.choice([2, 3])  # Інколи генеруємо 3 перешкоди
+    obstacles = []
+
+    for _ in range(num_obstacles):
+        column = free_columns.pop()
+        obstacles.append(Obstacle(column, speed))
+
+    return obstacles
 
 def game_loop():
     car = Car()
@@ -90,6 +92,10 @@ def game_loop():
     score = 0
     clock = pygame.time.Clock()
     running = True
+    obstacle_timer = 0
+    obstacle_speed = 5
+    speed_increase_interval = 5000
+    last_speed_increase = pygame.time.get_ticks()
 
     while running:
         for event in pygame.event.get():
@@ -102,11 +108,15 @@ def game_loop():
         if keys[pygame.K_RIGHT]:
             car.move_right()
 
-        if random.randint(1, 30) == 1:
-            new_obstacle = create_obstacle(obstacles)
-            if new_obstacle:
-                obstacles.append(new_obstacle)
+        current_time = pygame.time.get_ticks()
+        if current_time - last_speed_increase >= speed_increase_interval:
+            obstacle_speed += 0.5  # Збільшуємо швидкість на 0.5
+            last_speed_increase = current_time
 
+        if obstacle_timer <= 0 and len(obstacles) < 4:
+            new_obstacles = create_obstacles(obstacle_speed)
+            obstacles.extend(new_obstacles)
+            obstacle_timer = 120
 
         screen.fill(gray)
         draw_road()
@@ -125,6 +135,8 @@ def game_loop():
                 running = False
 
         show_score(score)
+
+        obstacle_timer -= 1
         pygame.display.flip()
         clock.tick(fps)
 
