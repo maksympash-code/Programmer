@@ -59,6 +59,10 @@ class Obstacle:
     def draw(self):
         pygame.draw.rect(screen, red, (self.x, self.y, self.width, self.height))
 
+    def get_rect(self):
+        return pygame.Rect(self.x, self.y, self.width, self.height)
+
+
 def check_collision(car, obstacle):
     car_rect = pygame.Rect(car.x, car.y, car_width, car_height)
     obstacle_rect = pygame.Rect(obstacle.x, obstacle.y, obstacle.width, obstacle.height)
@@ -71,6 +75,14 @@ def draw_road():
 def show_score(score):
     score_text = font.render(f"Score: {score}", True, white)
     screen.blit(score_text, (10, 10))
+
+def create_obstacle(obstacles):
+    max_attempts = 10
+    for i in range(max_attempts):
+        new_obstacle = Obstacle()
+        if not any(new_obstacle.get_rect().colliderect(ob.get_rect()) for ob in obstacles):
+            return new_obstacle
+    return None
 
 def game_loop():
     car = Car()
@@ -91,7 +103,10 @@ def game_loop():
             car.move_right()
 
         if random.randint(1, 30) == 1:
-            obstacles.append(Obstacle())
+            new_obstacle = create_obstacle(obstacles)
+            if new_obstacle:
+                obstacles.append(new_obstacle)
+
 
         screen.fill(gray)
         draw_road()
