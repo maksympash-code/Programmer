@@ -59,8 +59,8 @@ def draw_symbols():
             if game_board[row][col] != " ":
                 symbol = font.render(game_board[row][col], True, black)
                 symbol_rect = symbol.get_rect(
-                    center=(col * grid_size + grid_size // 2,
-                            row * grid_size + grid_size // 2)
+                    center = (col * grid_size + grid_size // 2,
+                              row * grid_size + grid_size // 2)
                 )
                 screen.blit(symbol, symbol_rect)
 
@@ -91,6 +91,6 @@ while running:
                     current_player = "O" if current_player == "X" else "X"
 
     pygame.display.flip()  # Оновлюємо екран
-    clock.tick(30)  # Обмежуємо FPS до 30
+    clock.tick(60)  # Обмежуємо FPS до 60
 
 pygame.quit()
